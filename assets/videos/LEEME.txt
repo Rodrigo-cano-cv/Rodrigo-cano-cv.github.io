@@ -1,0 +1,15 @@
+Coloca aquí tus archivos de video en formato .mp4 (recomendado, comprimido con H.264).
+
+Nombres esperados según js/main.js:
+- intro.mp4              -> video del Hero (portada)
+- mcdonalds-01.mp4, mcdonalds-02.mp4, mcdonalds-03.mp4
+- nescafe-01.mp4, nescafe-02.mp4
+- doggis-01.mp4, doggis-02.mp4
+- entel-01.mp4, entel-02.mp4
+- tottus-01.mp4, tottus-02.mp4, tottus-03.mp4
+
+Si usas otros nombres de archivo, actualiza la propiedad "video" de cada
+proyecto en js/main.js.
+
+Consejo: para que la web cargue rápido en GitHub Pages, comprime los
+videos (por ejemplo con Handbrake) a un ancho máximo de 1280px.
