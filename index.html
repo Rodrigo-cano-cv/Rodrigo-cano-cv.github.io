@@ -1175,69 +1175,6 @@
         }
 
         /* ==================================================================
-    JUEGO
-   ================================================================== */
-        .game {
-            padding: 110px 0 100px;
-            border-top: 1px solid var(--line);
-        }
-
-        .game__box {
-            padding: 0 var(--gutter);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 22px;
-        }
-
-        #gameCanvas {
-            width: 100%;
-            max-width: 720px;
-            aspect-ratio: 720/420;
-            background:
-                radial-gradient(120% 100% at 50% 0%, rgba(140, 133, 255, .18), transparent 60%),
-                var(--black-2);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            touch-action: none;
-            box-shadow: 0 0 30px rgba(140, 133, 255, 0.15);
-        }
-
-        .game__hud {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .game__hud div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .game__hud span {
-            font-size: 12px;
-            color: var(--stone);
-            letter-spacing: .03em;
-        }
-
-        .game__hud strong {
-            font-family: var(--font-display);
-            font-size: 30px;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
-        }
-
-        .game__legend {
-            color: var(--stone);
-            font-size: 14px;
-            text-align: center;
-        }
-
-        /* ==================================================================
     FOOTER
    ================================================================== */
         .footer {
@@ -1446,7 +1383,6 @@
             <a href="#destacados">Trabajos</a>
             <a href="#reels">Reels</a>
             <a href="#marcas">Marcas</a>
-            <a href="#juego">Juego</a>
             <a href="#sobre-mi">Sobre mí</a>
             <a href="#contacto">Contacto</a>
         </nav>
@@ -2028,26 +1964,6 @@
         </div>
     </section>
 
-    <section class="game" id="juego">
-        <div class="section-head">
-            <span class="section-num">03</span>
-            <h2>Atrapa lo que puedas</h2>
-            <p>Mueve el plato y atrapa hamburguesas, cafés y completos — ¡cuidado con el ají picante! 🍔☕🌭🌶️</p>
-        </div>
-
-        <div class="game__box">
-            <canvas id="gameCanvas" width="720" height="420" aria-label="Juego: atrapa lo que puedas"></canvas>
-
-            <div class="game__hud">
-                <div><span>Puntaje</span><strong id="gameScore">0</strong></div>
-                <div><span>Segundos</span><strong id="gameTime">30</strong></div>
-                <button class="btn btn--solid" id="gamePlay">Jugar</button>
-            </div>
-
-            <p class="game__legend">🍔 +3 &nbsp; ☕ +1 &nbsp; 🌭 +2 &nbsp; 🌶️ −2 (¡evítalo!)</p>
-        </div>
-    </section>
-
     <section class="about" id="sobre-mi">
         <div class="section-head about__head">
             <span class="section-num">04</span>
@@ -2498,123 +2414,6 @@
                 });
             });
 
-            // Lógica del minijuego "Atrapa lo que puedas"
-            const canvas = document.getElementById("gameCanvas");
-            const ctx = canvas.getContext("2d");
-            const scoreEl = document.getElementById("gameScore");
-            const timeEl = document.getElementById("gameTime");
-            const playBtn = document.getElementById("gamePlay");
-
-            let gameInterval, timerInterval;
-            let score = 0;
-            let timeLeft = 30;
-            let isPlaying = false;
-
-            let basket = { x: canvas.width / 2 - 40, y: canvas.height - 30, w: 80, h: 16, speed: 8 };
-            let items = [];
-            let keys = { ArrowLeft: false, ArrowRight: false };
-
-            window.addEventListener("keydown", e => { if (keys.hasOwnProperty(e.key)) keys[e.key] = true; });
-            window.addEventListener("keyup", e => { if (keys.hasOwnProperty(e.key)) keys[e.key] = false; });
-
-            canvas.addEventListener("touchmove", e => {
-                const rect = canvas.getBoundingClientRect();
-                const touchX = e.touches[0].clientX - rect.left;
-                basket.x = (touchX * (canvas.width / rect.width)) - basket.w / 2;
-            });
-
-            playBtn.addEventListener("click", startGame);
-
-            function startGame() {
-                score = 0;
-                timeLeft = 30;
-                items = [];
-                scoreEl.textContent = score;
-                timeEl.textContent = timeLeft;
-                isPlaying = true;
-                playBtn.style.display = "none";
-
-                clearInterval(gameInterval);
-                clearInterval(timerInterval);
-
-                gameInterval = setInterval(updateGame, 1000 / 60);
-                timerInterval = setInterval(() => {
-                    timeLeft--;
-                    timeEl.textContent = timeLeft;
-                    if (timeLeft <= 0) endGame();
-                }, 1000);
-            }
-
-            function spawnItem() {
-                const types = [
-                    { emoji: "🍔", points: 3, type: "good" },
-                    { emoji: "☕", points: 1, type: "good" },
-                    { emoji: "🌭", points: 2, type: "good" },
-                    { emoji: "🌶️", points: -2, type: "bad" }
-                ];
-                const rand = types[Math.floor(Math.random() * types.length)];
-                items.push({
-                    x: Math.random() * (canvas.width - 30),
-                    y: -30,
-                    size: 28,
-                    speed: 2 + Math.random() * 2.5,
-                    ...rand
-                });
-            }
-
-            function updateGame() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                if (keys.ArrowLeft && basket.x > 0) basket.x -= basket.speed;
-                if (keys.ArrowRight && basket.x < canvas.width - basket.w) basket.x += basket.speed;
-
-                ctx.fillStyle = "var(--bone)";
-                ctx.beginPath();
-                ctx.roundRect(basket.x, basket.y, basket.w, basket.h, 6);
-                ctx.fill();
-
-                if (Math.random() < 0.035) spawnItem();
-
-                for (let i = items.length - 1; i >= 0; i--) {
-                    let item = items[i];
-                    item.y += item.speed;
-
-                    ctx.font = `${item.size}px sans-serif`;
-                    ctx.fillText(item.emoji, item.x, item.y);
-
-                    if (
-                        item.y + item.size >= basket.y &&
-                        item.x + item.size >= basket.x &&
-                        item.x <= basket.x + basket.w &&
-                        item.y <= basket.y + basket.h
-                    ) {
-                        score += item.points;
-                        scoreEl.textContent = score;
-                        items.splice(i, 1);
-                        continue;
-                    }
-
-                    if (item.y > canvas.height) {
-                        items.splice(i, 1);
-                    }
-                }
-            }
-
-            function endGame() {
-                isPlaying = false;
-                clearInterval(gameInterval);
-                clearInterval(timerInterval);
-                playBtn.style.display = "inline-flex";
-                playBtn.textContent = "Volver a jugar";
-
-                ctx.fillStyle = "rgba(6, 6, 8, 0.88)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "var(--bone)";
-                ctx.font = "bold 32px var(--font-display)";
-                ctx.textAlign = "center";
-                ctx.fillText(`¡Juego terminado! Puntaje: ${score}`, canvas.width / 2, canvas.height / 2);
-                ctx.textAlign = "left";
-            }
         });
     </script>
 
