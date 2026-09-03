@@ -64,9 +64,17 @@
             }
         }
 
+        html {
+            min-height: 100%;
+            background: linear-gradient(165deg, #0e2a6b 0%, #1c2170 22%, #2a1270 44%, #4a1656 68%, #6a1c45 86%, #7a1f52 100%) no-repeat;
+            background-attachment: scroll;
+            background-size: 100% 100%;
+        }
+
         body {
             margin: 0;
-            background: linear-gradient(150deg, #12235f 0%, #2a1270 36%, #4a1656 66%, #6a1c45 100%) fixed;
+            min-height: 100vh;
+            background: transparent;
             color: var(--bone);
             font-family: var(--font-body);
             font-size: 16px;
