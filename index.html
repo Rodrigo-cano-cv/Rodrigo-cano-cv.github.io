@@ -326,6 +326,34 @@
             padding: 0 var(--gutter) 64px;
         }
 
+        .hero__figure {
+            position: absolute;
+            right: var(--gutter);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            margin: 0;
+            width: min(340px, 32vw);
+            aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 45px rgba(140, 133, 255, 0.35);
+        }
+
+        .hero__figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @media (max-width: 860px) {
+            .hero__figure {
+                display: none;
+            }
+        }
+
         .badge {
             display: inline-flex;
             align-items: center;
@@ -997,6 +1025,31 @@
             border-top: 1px solid var(--line);
             text-align: left;
             background: radial-gradient(circle at 80% 50%, rgba(255, 51, 153, 0.06) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            gap: clamp(32px, 5vw, 80px);
+            flex-wrap: wrap;
+        }
+
+        .philosophy__text {
+            flex: 1 1 440px;
+        }
+
+        .philosophy__media {
+            flex: 0 0 auto;
+            width: min(360px, 82vw);
+            aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid var(--amber);
+            box-shadow: 0 0 45px rgba(140, 133, 255, 0.35);
+        }
+
+        .philosophy__media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .philosophy h2 {
@@ -1434,6 +1487,10 @@
                 <a href="https://tiktok.com/@rodriigo_kano" target="_blank" rel="noopener">🎵 TikTok</a>
             </p>
         </div>
+
+        <figure class="hero__figure" aria-hidden="true">
+            <img src="assets/images/hero-gato.jpeg" alt="">
+        </figure>
     </section>
 
     <div class="marquee" aria-hidden="true">
@@ -2024,9 +2081,14 @@
     </section>
 
     <section class="philosophy">
-        <h2>No solo hago videos.<br>Creo ideas.</h2>
-        <p>Desde el concepto hasta la pieza final, me interesa que cada contenido tenga una razón para existir.</p>
-        <p>Una buena idea puede informar, entretener, vender o simplemente hacer que alguien se detenga a mirar.</p>
+        <div class="philosophy__text">
+            <h2>No solo hago videos.<br>Creo ideas.</h2>
+            <p>Desde el concepto hasta la pieza final, me interesa que cada contenido tenga una razón para existir.</p>
+            <p>Una buena idea puede informar, entretener, vender o simplemente hacer que alguien se detenga a mirar.</p>
+        </div>
+        <div class="philosophy__media">
+            <video src="assets/videos/filosofia.mp4" autoplay muted loop playsinline></video>
+        </div>
     </section>
 
     <section class="contact" id="contacto">
